@@ -78,6 +78,22 @@
         const leafCoords = coordinates[0].map(coord => [coord[1], coord[0]]);
         targetArray.push(leafCoords);
     }
+
+    fetch('pins.json')
+        .then(response => {
+            if (!response.ok) throw new Error("Cannot find pins.json file.");
+            return response.json();
+        })
+        .then(data => {
+            data.forEach(pin => {
+                const marker = L.marker([pin.pos.lat, pin.pos.lng]).addTo(map);
+                marker.bindPopup(`<b>${pin.name}</b><br>${pin.description}`);
+            });
+        })
+        .catch(err => {
+            console.error("Load error:", err);
+            alert("Please access this side from HTTP server and put pins.json in work dir");
+        });
 </script>
 </body>
 </html>
