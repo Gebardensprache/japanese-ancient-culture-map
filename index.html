@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Japanese Ancient Culture Map</Map></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; background-color: #72ff47; }
+        #map { 
+            height: 100vh; 
+            width: 100%; 
+            background-color: #aad3df; /* Sea colour */
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    const oceanBlue = "#aad3df";
+
+    // Initial Map
+    const map = L.map('map', {
+        center: [36.2, 138.2],
+        zoom: 5,
+        minZoom: 4,
+        maxBounds: [[18, 118], [52, 155]], // Limit max bounds
+        maxBoundsViscosity: 1.0
+    });
+
+    // 1. Load background layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // 2. Define world outer
+    const worldOuter = [[90, -180], [-90, -180], [-90, 180], [90, 180], [90, -180]];
+
+    // 3. Load japan.geojson from work dir
+    fetch('./japan.geojson')
+        .then(response => {
+            if (!response.ok) throw new Error("Cannot find japan.geojson file.");
+            return response.json();
+        })
+        .then(data => {
+            let maskCoords = [worldOuter];
+
+            data.features.forEach(feature => {
+                const geometry = feature.geometry;
+                if (geometry.type === 'Polygon') {
+                    addToMask(geometry.coordinates, maskCoords);
+                } else if (geometry.type === 'MultiPolygon') {
+                    geometry.coordinates.forEach(poly => {
+                        addToMask(poly, maskCoords);
+                    });
+                }
+            });
+
+            // 4. Draw overlay layer
+            L.polygon(maskCoords, {
+                color: oceanBlue,     // Border line colour
+                weight: 1,
+                fillColor: oceanBlue, // Fill colour
+                fillOpacity: 1,       // Not opacity
+                interactive: false    // Disable mouse interactive
+            }).addTo(map);
+        })
+        .catch(err => {
+            console.error("Load error:", err);
+            alert("Please access this side from HTTP server and put geojson in work dir");
+        });
+
+    function addToMask(coordinates, targetArray) {
+        const leafCoords = coordinates[0].map(coord => [coord[1], coord[0]]);
+        targetArray.push(leafCoords);
+    }
+</script>
+</body>
+</html>
