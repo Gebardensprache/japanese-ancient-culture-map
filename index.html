@@ -87,7 +87,18 @@
         .then(data => {
             data.forEach(pin => {
                 const marker = L.marker([pin.pos.lat, pin.pos.lng]).addTo(map);
-                marker.bindPopup(`<b>${pin.name}</b><br>${pin.description}`);
+                
+                // Create custom HTML content for the popup
+                const popupContent = `
+                    <div style="width: 300px; text-align: center;">
+                        <h3>${pin.name}</h3>
+                        <img src="${pin.image}" alt="${pin.name}" style="width: 100%; height: auto; border-radius: 8px;">
+                        <p>${pin.description}</p>
+                    </div>
+                `;
+
+                // Bind the custom popup to the marker
+                marker.bindPopup(popupContent);
             });
         })
         .catch(err => {
