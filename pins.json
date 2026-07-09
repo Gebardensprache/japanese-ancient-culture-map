@@ -9,5 +9,16 @@
             "lat": 35.0394,
             "lng": 135.7292
         }
+    },
+    {
+        "name": "有田焼",
+        "address": "佐賀県有田町とその周辺",
+        "image": "./images/aritayaki.jpg",
+        "homepage": "",
+        "description": "aritayaki",
+        "pos": {
+            "lat": 33.1228,
+            "lng": 129.5057
+        }
     }
 ]
