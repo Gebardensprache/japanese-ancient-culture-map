@@ -6,7 +6,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        body { margin: 0; background-color: #72ff47; }
+        body { margin: 0; background-color: #72ff47; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+        .search-panel {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            left: auto;
+            z-index: 1000;
+            width: min(360px, calc(100vw - 32px));
+            background: rgba(255, 255, 255, 0.94);
+            border-radius: 14px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+            padding: 14px;
+            backdrop-filter: blur(8px);
+        }
+        .search-panel.hidden {
+            display: none;
+        }
+        .search-panel h1 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            line-height: 1.3;
+        }
+        .search-panel input {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #c8d3d9;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 15px;
+            outline: none;
+        }
+        .search-panel input:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+        }
+        .results {
+            margin-top: 10px;
+            max-height: 240px;
+            overflow: auto;
+        }
+        .results button {
+            display: block;
+            width: 100%;
+            border: 0;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            text-align: left;
+            background: #f4f7f9;
+            cursor: pointer;
+        }
+        .results button:hover {
+            background: #e8f1ff;
+        }
+        .results button strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .results-empty {
+            margin: 0;
+            color: #55626b;
+            font-size: 14px;
+        }
+        .search-toggle {
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            z-index: 1000;
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 16px;
+            background: #1f2937;
+            color: #fff;
+            font-size: 14px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+            cursor: pointer;
+        }
+        .search-toggle:hover {
+            background: #111827;
+        }
         #map { 
             height: 100vh; 
             width: 100%; 
@@ -15,6 +94,16 @@
     </style>
 </head>
 <body>
+
+<button id="searchToggle" class="search-toggle" type="button">検索を表示</button>
+
+<div id="searchPanel" class="search-panel hidden">
+    <h1>検索</h1>
+    <input id="searchInput" type="text" placeholder="日本語キーワードで検索" autocomplete="off" />
+    <div id="searchResults" class="results">
+        <p class="results-empty">名前を入力すると候補を表示します。</p>
+    </div>
+</div>
 
 <div id="map"></div>
 
@@ -79,29 +168,110 @@
         targetArray.push(leafCoords);
     }
 
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const searchPanel = document.getElementById('searchPanel');
+    const searchToggle = document.getElementById('searchToggle');
+    const pinMarkers = [];
+    let pinData = [];
+
+    function escapeHtml(text) {
+        return String(text)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#39;');
+    }
+
+    function normalizeKeyword(text) {
+        return String(text).trim().toLowerCase().replace(/\s+/g, '');
+    }
+
+    function renderSearchResults(results) {
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+            searchResults.innerHTML = '<p class="results-empty">一致する候補はありません。</p>';
+            return;
+        }
+
+        results.forEach(pin => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.innerHTML = `<strong>${escapeHtml(pin.name)}</strong><span>${escapeHtml(pin.address || '')}</span>`;
+            button.addEventListener('click', () => {
+                const markerEntry = pinMarkers.find(entry => entry.pin === pin);
+                if (markerEntry) {
+                    map.setView([pin.pos.lat, pin.pos.lng], 11);
+                    markerEntry.marker.openPopup();
+                }
+            });
+            searchResults.appendChild(button);
+        });
+    }
+
+    function updateSearch() {
+        const keyword = normalizeKeyword(searchInput.value);
+        const results = keyword
+            ? pinData.filter(pin => normalizeKeyword(pin.name).includes(keyword))
+            : pinData;
+
+        pinMarkers.forEach(({ marker, pin }) => {
+            if (!keyword || normalizeKeyword(pin.name).includes(keyword)) {
+                if (!map.hasLayer(marker)) {
+                    marker.addTo(map);
+                }
+            } else if (map.hasLayer(marker)) {
+                map.removeLayer(marker);
+            }
+        });
+
+        renderSearchResults(results);
+    }
+
+    function setSearchPanelVisible(isVisible) {
+        searchPanel.classList.toggle('hidden', !isVisible);
+        searchToggle.textContent = isVisible ? '検索を隠す' : '検索を表示';
+        if (isVisible) {
+            searchInput.focus();
+        }
+    }
+
+    searchToggle.addEventListener('click', () => {
+        setSearchPanelVisible(searchPanel.classList.contains('hidden'));
+    });
+
+    searchInput.addEventListener('input', updateSearch);
+
     fetch('pins.json')
         .then(response => {
             if (!response.ok) throw new Error("Cannot find pins.json file.");
             return response.json();
         })
         .then(data => {
+            pinData = data;
+
             data.forEach(pin => {
                 const marker = L.marker([pin.pos.lat, pin.pos.lng]).addTo(map);
+                pinMarkers.push({ pin, marker });
                 
                 // Create custom HTML content for the popup
                 const popupContent = `
                     <div style="width: 300px; text-align: center;">
-                        <h3>${pin.name}</h3>
-                        <img src=${pin.image} alt="${pin.name}" style="width: 100%; height: auto; border-radius: 8px;">
-                        <p>${pin.description}</p>
-                        <p><strong>Address:</strong> ${pin.address}</p>
-                        <p><a href=${pin.homepage} target="_blank" style="color: blue; text-decoration: underline;">Visit Homepage</a></p>
+                        <h3>${escapeHtml(pin.name)}</h3>
+                        <img src="${escapeHtml(pin.image)}" alt="${escapeHtml(pin.name)}" style="width: 100%; height: auto; border-radius: 8px;">
+                        <p>${escapeHtml(pin.description)}</p>
+                        <p><strong>Address:</strong> ${escapeHtml(pin.address)}</p>
+                        <p><a href="${escapeHtml(pin.homepage)}" target="_blank" rel="noopener noreferrer" style="color: blue; text-decoration: underline;">Visit Homepage</a></p>
                     </div>
                 `;
 
                 // Bind the custom popup to the marker
                 marker.bindPopup(popupContent);
             });
+
+            updateSearch();
         })
         .catch(err => {
             console.error("Load error:", err);
