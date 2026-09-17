@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Japanese Ancient Culture Map</Map></title>
+    <title>日本の古代文化マップ</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -69,22 +69,90 @@
             color: #55626b;
             font-size: 14px;
         }
-        .search-toggle {
+        .floating-action {
             position: absolute;
             right: 16px;
-            bottom: 16px;
             z-index: 1000;
+            width: 132px;
+            box-sizing: border-box;
             border: 0;
             border-radius: 999px;
-            padding: 12px 16px;
-            background: #1f2937;
+            padding: 12px 0;
             color: #fff;
             font-size: 14px;
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
             cursor: pointer;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .search-toggle {
+            bottom: 16px;
+            z-index: 1000;
+            background: #1f2937;
         }
         .search-toggle:hover {
             background: #111827;
+        }
+        .random-button {
+            bottom: 64px;
+            background: #0f766e;
+        }
+        .random-button:hover {
+            background: #115e59;
+        }
+        .info-panel {
+            position: absolute;
+            top: 88px;
+            left: 20px;
+            z-index: 1000;
+            width: min(320px, calc(100vw - 40px));
+            max-height: calc(100vh - 112px);
+            overflow: auto;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 14px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            backdrop-filter: blur(8px);
+        }
+        .info-panel.hidden {
+            display: none;
+        }
+        .info-panel-header {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .info-panel-title {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.3;
+        }
+        .info-panel-close {
+            border: 0;
+            background: transparent;
+            color: #44515a;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+        .info-panel-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px 0 12px;
+            display: block;
+        }
+        .info-panel-body p {
+            margin: 0 0 10px;
+            line-height: 1.6;
+            color: #1f2937;
+        }
+        .info-panel-body a {
+            color: #0b66c3;
+            text-decoration: underline;
         }
         #map { 
             height: 100vh; 
@@ -95,11 +163,20 @@
 </head>
 <body>
 
-<button id="searchToggle" class="search-toggle" type="button">検索を表示</button>
+<button id="randomButton" class="floating-action random-button" type="button">ランダム表示</button>
+<button id="searchToggle" class="floating-action search-toggle" type="button">検索を表示</button>
+
+<aside id="infoPanel" class="info-panel hidden" aria-live="polite">
+    <div class="info-panel-header">
+        <h1 id="infoTitle" class="info-panel-title"></h1>
+        <button id="infoClose" class="info-panel-close" type="button" aria-label="閉じる">×</button>
+    </div>
+    <div id="infoBody" class="info-panel-body"></div>
+</aside>
 
 <div id="searchPanel" class="search-panel hidden">
     <h1>検索</h1>
-    <input id="searchInput" type="text" placeholder="日本語キーワードで検索" autocomplete="off" />
+    <input id="searchInput" type="text" placeholder="日本語のキーワードで検索" autocomplete="off" />
     <div id="searchResults" class="results">
         <p class="results-empty">名前を入力すると候補を表示します。</p>
     </div>
@@ -132,7 +209,7 @@
     // 3. Load japan.geojson from work dir
     fetch('./japan.geojson')
         .then(response => {
-            if (!response.ok) throw new Error("Cannot find japan.geojson file.");
+            if (!response.ok) throw new Error("japan.geojson ファイルが見つかりません。");
             return response.json();
         })
         .then(data => {
@@ -160,7 +237,7 @@
         })
         .catch(err => {
             console.error("Load error:", err);
-            alert("Please access this side from HTTP server and put geojson in work dir");
+            alert("HTTP サーバーから開き、作業フォルダに geojson を配置してください。");
         });
 
     function addToMask(coordinates, targetArray) {
@@ -172,6 +249,11 @@
     const searchResults = document.getElementById('searchResults');
     const searchPanel = document.getElementById('searchPanel');
     const searchToggle = document.getElementById('searchToggle');
+    const randomButton = document.getElementById('randomButton');
+    const infoPanel = document.getElementById('infoPanel');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoBody = document.getElementById('infoBody');
+    const infoClose = document.getElementById('infoClose');
     const pinMarkers = [];
     let pinData = [];
 
@@ -201,11 +283,8 @@
             button.type = 'button';
             button.innerHTML = `<strong>${escapeHtml(pin.name)}</strong><span>${escapeHtml(pin.address || '')}</span>`;
             button.addEventListener('click', () => {
-                const markerEntry = pinMarkers.find(entry => entry.pin === pin);
-                if (markerEntry) {
-                    map.setView([pin.pos.lat, pin.pos.lng], 11);
-                    markerEntry.marker.openPopup();
-                }
+                map.setView([pin.pos.lat, pin.pos.lng], 11);
+                showPinInfo(pin);
             });
             searchResults.appendChild(button);
         });
@@ -230,6 +309,21 @@
         renderSearchResults(results);
     }
 
+    function showPinInfo(pin) {
+        infoTitle.textContent = pin.name;
+        infoBody.innerHTML = `
+            <img class="info-panel-image" src="${escapeHtml(pin.image)}" alt="${escapeHtml(pin.name)}">
+            <p>${escapeHtml(pin.description)}</p>
+            <p><strong>住所:</strong> ${escapeHtml(pin.address)}</p>
+            <p><a href="${escapeHtml(pin.homepage)}" target="_blank" rel="noopener noreferrer">ホームページを見る</a></p>
+        `;
+        infoPanel.classList.remove('hidden');
+    }
+
+    function hidePinInfo() {
+        infoPanel.classList.add('hidden');
+    }
+
     function setSearchPanelVisible(isVisible) {
         searchPanel.classList.toggle('hidden', !isVisible);
         searchToggle.textContent = isVisible ? '検索を隠す' : '検索を表示';
@@ -242,11 +336,23 @@
         setSearchPanelVisible(searchPanel.classList.contains('hidden'));
     });
 
+    randomButton.addEventListener('click', () => {
+        if (pinData.length === 0) {
+            return;
+        }
+
+        const randomPin = pinData[Math.floor(Math.random() * pinData.length)];
+        map.setView([randomPin.pos.lat, randomPin.pos.lng], 11);
+        showPinInfo(randomPin);
+    });
+
+    infoClose.addEventListener('click', hidePinInfo);
+
     searchInput.addEventListener('input', updateSearch);
 
     fetch('pins.json')
         .then(response => {
-            if (!response.ok) throw new Error("Cannot find pins.json file.");
+            if (!response.ok) throw new Error("pins.json ファイルが見つかりません。");
             return response.json();
         })
         .then(data => {
@@ -255,20 +361,12 @@
             data.forEach(pin => {
                 const marker = L.marker([pin.pos.lat, pin.pos.lng]).addTo(map);
                 pinMarkers.push({ pin, marker });
-                
-                // Create custom HTML content for the popup
-                const popupContent = `
-                    <div style="width: 300px; text-align: center;">
-                        <h3>${escapeHtml(pin.name)}</h3>
-                        <img src="${escapeHtml(pin.image)}" alt="${escapeHtml(pin.name)}" style="width: 100%; height: auto; border-radius: 8px;">
-                        <p>${escapeHtml(pin.description)}</p>
-                        <p><strong>Address:</strong> ${escapeHtml(pin.address)}</p>
-                        <p><a href="${escapeHtml(pin.homepage)}" target="_blank" rel="noopener noreferrer" style="color: blue; text-decoration: underline;">Visit Homepage</a></p>
-                    </div>
-                `;
 
-                // Bind the custom popup to the marker
-                marker.bindPopup(popupContent);
+                marker.on('click', () => {
+                    map.setView([pin.pos.lat, pin.pos.lng], 11);
+                    showPinInfo(pin);
+                });
+                
             });
 
             updateSearch();
