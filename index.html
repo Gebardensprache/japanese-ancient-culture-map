@@ -256,6 +256,16 @@
     const infoClose = document.getElementById('infoClose');
     const pinMarkers = [];
     let pinData = [];
+    const imageFallback = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+            <rect width="640" height="360" rx="24" fill="#dbeafe"/>
+            <circle cx="520" cy="92" r="56" fill="#93c5fd" opacity="0.7"/>
+            <path d="M72 276 L188 178 L276 244 L354 166 L520 276 Z" fill="#60a5fa" opacity="0.9"/>
+            <path d="M110 280 L220 210 L294 258 L384 188 L536 280 Z" fill="#2563eb" opacity="0.45"/>
+            <text x="50%" y="54%" text-anchor="middle" font-size="30" font-family="system-ui, sans-serif" fill="#1e3a8a">画像を読み込めません</text>
+            <text x="50%" y="63%" text-anchor="middle" font-size="18" font-family="system-ui, sans-serif" fill="#1d4ed8">外部画像の代替表示です</text>
+        </svg>
+    `);
 
     function escapeHtml(text) {
         return String(text)
@@ -312,7 +322,7 @@
     function showPinInfo(pin) {
         infoTitle.textContent = pin.name;
         infoBody.innerHTML = `
-            <img class="info-panel-image" src="${escapeHtml(pin.image)}" alt="${escapeHtml(pin.name)}">
+            <img class="info-panel-image" src="${escapeHtml(pin.image)}" alt="${escapeHtml(pin.name)}" onerror="this.onerror=null;this.src='${imageFallback}'">
             <p>${escapeHtml(pin.description)}</p>
             <p><strong>住所:</strong> ${escapeHtml(pin.address)}</p>
             <p><a href="${escapeHtml(pin.homepage)}" target="_blank" rel="noopener noreferrer">ホームページを見る</a></p>

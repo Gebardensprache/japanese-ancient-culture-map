@@ -24,7 +24,7 @@
     {
         "name": "法隆寺",
         "address": "〒636-0115 奈良県生駒郡斑鳩町法隆寺山内１−１",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Horyu-ji37s3200.jpg/640px-Horyu-ji37s3200.jpg",
+        "image": "./images/Horyu-ji45s2s4500.jpg",
         "homepage": "https://www.horyuji.or.jp/",
         "description": "法隆寺（ほうりゅうじ）は、奈良県斑鳩町にある法相宗の寺院で、世界最古級の木造建築群として知られます。飛鳥時代の文化を伝える代表的な寺院であり、日本の仏教建築史を考える上で欠かせない存在です。",
         "pos": {
@@ -35,7 +35,7 @@
     {
         "name": "姫路城",
         "address": "〒670-0012 兵庫県姫路市本町６８",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Himeji_Castle_The_White_Heron.jpg/640px-Himeji_Castle_The_White_Heron.jpg",
+        "image": "./images/Himeji_Castle_Aerial_photograph_2010.jpg",
         "homepage": "https://www.city.himeji.lg.jp/guide/castle/",
         "description": "姫路城（ひめじじょう）は、兵庫県姫路市にある日本を代表する城郭で、その優美な姿から白鷺城とも呼ばれます。戦国時代から江戸時代にかけて整えられた城郭建築と防御構造が高く評価されています。",
         "pos": {
@@ -46,7 +46,7 @@
     {
         "name": "厳島神社",
         "address": "〒739-0588 広島県廿日市市宮島町１−１",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Itsukushima_Shrine_Main_Portal_and_Main_Hall.jpg/640px-Itsukushima_Shrine_Main_Portal_and_Main_Hall.jpg",
+        "image": "./images/Itsukushima_Shrine_Torii_Gate_(13890465459).jpg",
         "homepage": "https://www.itsukushimajinja.jp/",
         "description": "厳島神社（いつくしまじんじゃ）は、広島県宮島にある神社で、海上に建つ朱塗りの社殿と大鳥居で知られます。潮の満ち引きと調和した景観が日本を代表する名所の一つです。",
         "pos": {
@@ -57,7 +57,7 @@
     {
         "name": "松本城",
         "address": "〒390-0873 長野県松本市丸の内４−１",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Matsumoto_Castle_2018.jpg/640px-Matsumoto_Castle_2018.jpg",
+        "image": "./images/Matsumoto_Castle_1-1.jpg",
         "homepage": "https://www.matsumoto-castle.jp/",
         "description": "松本城（まつもとじょう）は、長野県松本市にある現存天守をもつ名城です。黒漆塗りの外観から烏城とも呼ばれ、戦国から江戸初期の城郭文化を伝えています。",
         "pos": {
@@ -68,7 +68,7 @@
     {
         "name": "熊野古道",
         "address": "和歌山県・三重県・奈良県の熊野参詣道一帯",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Kumano_Kodo_Nakahechi_Trail.jpg/640px-Kumano_Kodo_Nakahechi_Trail.jpg",
+        "image": "./images/Kumano-Kaido_Monument_at_Intersection_of_Tosabori-dori_and_Oharai-suji.jpg",
         "homepage": "https://www.tb-kumano.jp/",
         "description": "熊野古道（くまのこどう）は、熊野三山への参詣にまつわる巡礼文化と信仰の実践を伝える道です。山岳信仰、歩く巡礼、地域のもてなしが結びついた、日本を代表する文化的景観として知られます。",
         "pos": {
@@ -79,7 +79,7 @@
     {
         "name": "白川郷・五箇山の合掌造り集落",
         "address": "岐阜県大野郡白川村・富山県南砺市",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Shirakawa-go_Gassho_zukuri_houses.jpg/640px-Shirakawa-go_Gassho_zukuri_houses.jpg",
+        "image": "./images/Ogi_Shirakawa-gō,_Gifu,_Japan.jpg",
         "homepage": "https://shirakawa-go.gr.jp/",
         "description": "白川郷・五箇山の合掌造り集落は、急勾配の茅葺き屋根を持つ民家が並ぶ山村景観で有名です。豪雪地帯に適応した住居様式と、共同体の暮らしを今に伝える文化遺産です。",
         "pos": {
@@ -90,7 +90,7 @@
     {
         "name": "仁和寺",
         "address": "〒616-8092 京都府京都市右京区御室大内３３",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Ninna-ji_Temple%2C_Kyoto%2C_Japan.jpg/640px-Ninna-ji_Temple%2C_Kyoto%2C_Japan.jpg",
+        "image": "./images/Ninnaji_Kyoto07n4500.jpg",
         "homepage": "https://ninnaji.jp/",
         "description": "仁和寺（にんなじ）は、京都市右京区にある真言宗御室派の総本山です。御室桜で知られ、平安時代以来の門跡寺院として高い歴史的価値を持ちます。",
         "pos": {
@@ -101,7 +101,7 @@
     {
         "name": "東大寺",
         "address": "〒630-8211 奈良県奈良市雑司町４０６−１",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/T%C5%8Ddai-ji_Nandaimon.jpg/640px-T%C5%8Ddai-ji_Nandaimon.jpg",
+        "image": "./images/東大寺_大仏殿（2024年）.jpg",
         "homepage": "https://www.todaiji.or.jp/",
         "description": "東大寺（とうだいじ）は、奈良市にある華厳宗大本山で、奈良の大仏を安置する寺院として知られます。古代国家の仏教政策や建築技術を伝える重要な文化財です。",
         "pos": {
@@ -112,7 +112,7 @@
     {
         "name": "琉球王国のグスク及び関連遺産群",
         "address": "沖縄県那覇市・中城村・今帰仁村ほか",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Shuri_Castle%2C_Okinawa%2C_Japan.jpg/640px-Shuri_Castle%2C_Okinawa%2C_Japan.jpg",
+        "image": "./images/Naha_Shuri_Castle16s5s3200.jpg",
         "homepage": "https://www.okinawastory.jp/spot/600000010",
         "description": "琉球王国のグスク及び関連遺産群は、首里城などを含む沖縄の歴史的遺産です。東アジアと東南アジアの交流を背景に形成された独自の王国文化を伝えています。",
         "pos": {
@@ -123,7 +123,7 @@
     {
         "name": "日光東照宮",
         "address": "〒321-1431 栃木県日光市山内２３０１",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Nikko_Toshogu_2019_2.jpg/640px-Nikko_Toshogu_2019_2.jpg",
+        "image": "./images/Nikko_Toshogu_Yomeimon_Gate_2024.jpg",
         "homepage": "https://www.toshogu.jp/",
         "description": "日光東照宮は、徳川家康を祀る神社で、絢爛な装飾と社殿群で知られます。江戸幕府の権威と美意識を伝える代表的な宗教建築です。",
         "pos": {
@@ -134,7 +134,7 @@
     {
         "name": "出雲大社",
         "address": "〒699-0701 島根県出雲市大社町杵築東１９５",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Izumo_taisha_shrine.jpg/640px-Izumo_taisha_shrine.jpg",
+        "image": "./images/Haiden_of_Izumo-taisha-1.jfif",
         "homepage": "https://izumooyashiro.or.jp/",
         "description": "出雲大社（いずもたいしゃ）は、縁結びの神として親しまれる大社です。古代からの信仰と独特の神社建築で、日本神話の世界を身近に感じられます。",
         "pos": {
@@ -145,7 +145,7 @@
     {
         "name": "能楽",
         "address": "日本各地の能舞台・能楽堂",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Noh_Actresses_in_Masks.jpg/640px-Noh_Actresses_in_Masks.jpg",
+        "image": "./images/能衣装_狩衣_紺地石畳法螺貝模様,_Noh_Costume_(Kariginu)_with_Checks_and_Conch_Shells.jpg",
         "homepage": "https://www.nohgaku.or.jp/",
         "description": "能楽（のうがく）は、能と狂言からなる日本の伝統芸能です。能面や舞、謡によって物語を表現し、室町時代以来の美意識を受け継いでいます。",
         "pos": {
@@ -156,7 +156,7 @@
     {
         "name": "歌舞伎",
         "address": "日本各地の歌舞伎劇場",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Kabuki_stage.jpg/640px-Kabuki_stage.jpg",
+        "image": "./images/Odori_Keiyō_Edo-e_no_sakae_by_Toyokuni_III.jpg",
         "homepage": "https://www.kabuki-bito.jp/",
         "description": "歌舞伎（かぶき）は、豪華な化粧と衣裳、様式化された演技で知られる日本の伝統演劇です。庶民文化を背景に発展し、現在も人気の高い舞台芸能です。",
         "pos": {
@@ -167,7 +167,7 @@
     {
         "name": "和食",
         "address": "日本各地",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Traditional_Japanese_breakfast.jpg/640px-Traditional_Japanese_breakfast.jpg",
+        "image": "./images/Tempura,_sashimi,_pickles,_ris_og_misosuppe_(6289116752).jpg",
         "homepage": "https://www.maff.go.jp/j/keikaku/syokubunka/ich/index.html",
         "description": "和食（わしょく）は、自然の恵みを生かし、季節感や盛り付けの美しさを重んじる日本の食文化です。年中行事や地域の食材と深く結びついています。",
         "pos": {
@@ -178,7 +178,7 @@
     {
         "name": "和紙",
         "address": "岐阜県・島根県・埼玉県などの産地",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Japanese_paper_2.jpg/640px-Japanese_paper_2.jpg",
+        "image": "./images/Chiyogami.jfif",
         "homepage": "https://www.washi.or.jp/",
         "description": "和紙（わし）は、楮や三椏などを原料にした日本の伝統紙です。書道、工芸、修復など幅広い分野で活用され、繊細で丈夫な質感が特徴です。",
         "pos": {
@@ -189,7 +189,7 @@
     {
         "name": "小千谷縮・越後上布",
         "address": "新潟県小千谷市・南魚沼市周辺",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Echigo_jofu_loom.jpg/640px-Echigo_jofu_loom.jpg",
+        "image": "./images/Ramie_fabric_from_Japan.jpg",
         "homepage": "https://www.city.ojiya.niigata.jp/site/chijimi/",
         "description": "小千谷縮・越後上布は、新潟県の雪国で育まれた麻織物です。手作業による精緻な技術と涼やかな風合いが高く評価される伝統的工芸技術です。",
         "pos": {
@@ -200,7 +200,7 @@
     {
         "name": "組踊",
         "address": "沖縄県那覇市を中心とする沖縄各地",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Kumiodori.jpg/640px-Kumiodori.jpg",
+        "image": "./images/Kumiodori.jpg",
         "homepage": "https://www.shimabukuro.co.jp/kumiodori/",
         "description": "組踊（くみおどり）は、琉球王国で生まれた歌舞劇です。琉球語の台詞、琉球音楽、舞踊が一体となった総合芸能として上演されます。",
         "pos": {
@@ -211,7 +211,7 @@
     {
         "name": "アイヌ語・アイヌ文化",
         "address": "北海道各地",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Ainu_people_in_1904.jpg/640px-Ainu_people_in_1904.jpg",
+        "image": "./images/Ainu_Marriage.jpg",
         "homepage": "https://ainu-upopoy.jp/",
         "description": "アイヌ語・アイヌ文化は、北海道を中心に受け継がれてきた先住民族の文化です。言語、口承文学、儀礼、刺繍など、自然との共生を重んじる豊かな伝統があります。",
         "pos": {
@@ -222,7 +222,7 @@
     {
         "name": "伝統的酒造り",
         "address": "日本各地の酒蔵",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Sake_barrels_at_Fushimi_Inari.jpg/640px-Sake_barrels_at_Fushimi_Inari.jpg",
+        "image": "./images/Sake_set.jpg",
         "homepage": "https://www.nrib.go.jp/sake/",
         "description": "伝統的酒造りは、麹菌や酵母を活用して日本酒などを醸す技術です。地域ごとの水や米の特性を生かしながら、長い時間をかけて受け継がれてきました。",
         "pos": {
@@ -233,7 +233,7 @@
     {
         "name": "和太鼓",
         "address": "日本各地",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Taiko_Drum.jpg/640px-Taiko_Drum.jpg",
+        "image": "./images/Taiko_drum.jpg",
         "homepage": "https://www.taiko-kyokai.or.jp/",
         "description": "和太鼓は、日本の祭りや芸能で用いられてきた打楽器文化です。力強い響きと身体表現が特徴で、地域行事や舞台芸術で広く親しまれています。",
         "pos": {
